@@ -10,9 +10,20 @@ import SideBar from '../Components/SideBar';
 import Footer from '../Components/Footer';
 
 class BuyResearch extends Component {
-  state = {
-    products: [],
-  };
+  constructor(props) {
+    super(props);
+    this.state = { valueCredit: '' };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    const { project } = this.props;
+    this.setState({ valueCredit: project[0].credit });
+  }
+
+  handleChange(event) {
+    this.setState({ valueCredit: event.target.value });
+  }
 
   render() {
     const { project } = this.props;
@@ -23,6 +34,8 @@ class BuyResearch extends Component {
         <ListaInformation>
           <div className="bodyList">
             <h1>{project[0].products.title}</h1>
+            <h1>{this.state.valueCredit}</h1>
+
             <p>
               Configure a sua pesquisa. Altere a quantidade de créditos que
               precisará utilizar!
@@ -39,7 +52,11 @@ class BuyResearch extends Component {
                   <p>Respostas</p>
                 </div>
                 <div className="inputForm">
-                  <input type="text" value={project[0].credit} />
+                  <input
+                    type="text"
+                    value={this.state.valueCredit}
+                    onChange={this.handleChange}
+                  />
                 </div>
                 <div className="inputForm">
                   <input type="text" value={project[0].price_credit} disabled />
@@ -97,7 +114,7 @@ class BuyResearch extends Component {
                 <div className="titleTotal" />
                 <div className="titleTotal">Total:</div>
                 <div className="titleTotal inputForm">
-                  {project[0].credit * project[0].price_credit +
+                  {this.state.valueCredit * project[0].price_credit +
                     project[0].email * project[0].price_email +
                     project[0].sms * project[0].price_sms +
                     project[0].whatsapp * project[0].price_whatsapp}
