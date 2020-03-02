@@ -17,7 +17,6 @@ class Produtos extends Component {
 
   async componentDidMount() {
     const response = await api.get('packages');
-
     const data = response.data.map(product => ({
       ...product,
       priceFormatted: formatPrice(product.price),
